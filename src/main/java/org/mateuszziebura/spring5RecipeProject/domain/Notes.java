@@ -2,6 +2,7 @@ package org.mateuszziebura.spring5RecipeProject.domain;
 
 import javax.persistence.*;
 
+@Entity
 public class Notes {
 
     @Id
