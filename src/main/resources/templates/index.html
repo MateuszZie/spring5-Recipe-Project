@@ -5,6 +5,10 @@
     <title>Recipe Home</title>
 </head>
 <body>
-<h1 th:text="'Recipes!!'">Recipe</h1>
+<h1 th:text="'Recipes List'">Recipe</h1>
+<table th:each="recipe: ${recipes}" >
+    <a id="lol" th:text="${recipe.url}" th:href="|recipe?check=${recipe.url}|" type="text" name="check">recipe</a>
+</table>
+
 </body>
 </html>
