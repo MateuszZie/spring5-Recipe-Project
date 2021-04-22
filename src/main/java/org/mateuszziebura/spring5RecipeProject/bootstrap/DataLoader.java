@@ -48,6 +48,7 @@ public class DataLoader implements CommandLineRunner {
         spiceGrilledChicken.setIngredients(ingredients);
         Notes notes = new Notes();
         notes.setRecipeNotes("Look for ancho chile powder with the Mexican ingredients at your grocery store, on buy it online. (If you can't find ancho chili powder, you replace the ancho chili, the oregano, and the cumin with 2 1/2 tablespoons regular chili powder, though the flavor won't be quite the same.)");
+        notes.setRecipe(spiceGrilledChicken);
         spiceGrilledChicken.setNotes(notes);
         Category category1 = new Category();
         category1.setDescription("Healthy");
@@ -65,7 +66,7 @@ public class DataLoader implements CommandLineRunner {
 
         Recipe guacamole = new Recipe();
         guacamole.setUrl("Guacamole");
-        guacamole.setCookTime(2);
+        guacamole.setCookTime(0);
         guacamole.setDescription("The best guacamole keeps it simple: just ripe avocados, salt, a squeeze of lime, onions, chiles, cilantro, and some chopped tomato. Serve it as a dip at your next party or spoon it on top of tacos for an easy dinner upgrade.");
         guacamole.setDifficulty(Difficulty.EASY);
         guacamole.setPrepTime(10);
@@ -84,6 +85,7 @@ public class DataLoader implements CommandLineRunner {
         guacamole.setIngredients(ingredients);
         notes = new Notes();
         notes.setRecipeNotes("Look for ancho chile powder with the Mexican ingredients at your grocery store, on buy it online. (If you can't find ancho chili powder, you replace the ancho chili, the oregano, and the cumin with 2 1/2 tablespoons regular chili powder, though the flavor won't be quite the same.)");
+        notes.setRecipe(guacamole);
         guacamole.setNotes(notes);
 
         guacamole.setSource("How to Make Perfect Guacamole");
