@@ -7,6 +7,7 @@ import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepositories;
 import org.mateuszziebura.spring5RecipeProject.repositories.UnitOfMeasureRepositories;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -28,6 +29,7 @@ public class DataLoader implements CommandLineRunner {
     }
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         log.debug("Welcome bootstrap data");
         Recipe spiceGrilledChicken = new Recipe();
