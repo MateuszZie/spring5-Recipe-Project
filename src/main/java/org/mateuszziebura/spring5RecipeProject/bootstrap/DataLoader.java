@@ -1,5 +1,6 @@
 package org.mateuszziebura.spring5RecipeProject.bootstrap;
 
+import lombok.extern.slf4j.Slf4j;
 import org.mateuszziebura.spring5RecipeProject.domain.*;
 import org.mateuszziebura.spring5RecipeProject.repositories.CategoryRepositories;
 import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepositories;
@@ -13,6 +14,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Component
+@Slf4j
 public class DataLoader implements CommandLineRunner {
 
     private final UnitOfMeasureRepositories unitOfMeasureRepositories;
@@ -27,7 +29,7 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
+        log.debug("Welcome bootstrap data");
         Recipe spiceGrilledChicken = new Recipe();
         spiceGrilledChicken.setCookTime(15);
         spiceGrilledChicken.setDescription("Spicy grilled chicken tacos! Quick marinade, then grill. Ready in about 30 minutes. Great for a quick weeknight dinner, backyard cookouts, and tailgate parties.");

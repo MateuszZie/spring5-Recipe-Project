@@ -1,5 +1,6 @@
 package org.mateuszziebura.spring5RecipeProject.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
 import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepositories;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@Slf4j
 public class RecipeController {
 
     private final RecipeRepositories recipeRepositories;
@@ -18,6 +20,7 @@ public class RecipeController {
 
     @RequestMapping("recipe")
     public String recipe(@RequestParam String check, Model model){
+        log.debug("log in recipe page");
         Recipe recipe= recipeRepositories.findByUrl(check);
         model.addAttribute("recipe", recipe);
         try{
