@@ -2,15 +2,20 @@ package org.mateuszziebura.spring5RecipeProject.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
 import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepositories;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 class IndexPageControllerTest {
 
@@ -29,10 +34,28 @@ class IndexPageControllerTest {
     }
     @Test
     void getIndexPage(){
+
+        Map<Long,Recipe> map = new HashMap<>();
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+        map.put(1L,recipe);
+        Recipe recipe2 = new Recipe();
+        recipe2.setId(2L);
+        map.put(2L,recipe2);
+
+        when(repositories.findAll()).thenReturn(map.values());
+
+        ArgumentCaptor<Iterable<Recipe>> argumentCaptor = ArgumentCaptor.forClass(Collection.class);
+
         String result = indexPageController.getIndexPage(model);
         assertEquals("index",result);
         verify(repositories,times(1)).findAll();
-        verify(model,times(1)).addAttribute(eq("recipes"),anyCollection());
+        verify(model,times(1)).addAttribute(eq("recipes"),argumentCaptor.capture());
+        Map<Long,Recipe> recipeMap = new HashMap<>();
+        argumentCaptor.getValue().forEach(recipe1 -> {
+            recipeMap.put(recipe1.getId(),recipe1);
+        });
+        assertEquals(2, recipeMap.size());
 
     }
 }
