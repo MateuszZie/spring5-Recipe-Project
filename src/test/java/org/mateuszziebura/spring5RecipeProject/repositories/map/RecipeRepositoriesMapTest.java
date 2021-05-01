@@ -17,19 +17,20 @@ class RecipeRepositoriesMapTest {
     @Mock
     RecipeRepositories repositories;
 
+    Recipe recipe;
+
+    HashSet hashSet;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-
+        recipe = new Recipe();
+        hashSet = new HashSet();
+        hashSet.add(recipe);
     }
 
     @Test
     void findAll() throws Exception{
-        Recipe recipe = new Recipe();
-        HashSet hashSet = new HashSet();
-        hashSet.add(recipe);
-
-
         when(repositories.findAll()).thenReturn(hashSet);
         Iterable<Recipe> recipes= repositories.findAll();
         Set<Recipe> set = new HashSet<>();
@@ -37,5 +38,22 @@ class RecipeRepositoriesMapTest {
 
         assertEquals(set.size(), 1);
         verify(repositories,times(1)).findAll();
+    }
+
+    @Test
+    void findByUrl() {
+        when(repositories.findByUrl("someUrl")).thenReturn(recipe);
+        Recipe returnRecipe = repositories.findByUrl("someUrl");
+
+        assertNotNull(returnRecipe);
+        verify(repositories,times(1)).findByUrl(any());
+    }
+    @Test
+    void findByUrlNull() {
+        when(repositories.findByUrl("wrong")).thenReturn(recipe);
+        Recipe returnRecipe = repositories.findByUrl("someUrl");
+
+        assertNull(returnRecipe);
+        verify(repositories,times(1)).findByUrl(any());
     }
 }

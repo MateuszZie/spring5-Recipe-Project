@@ -20,7 +20,7 @@ public class RecipeController {
 
     @RequestMapping("recipe")
     public String recipe(@RequestParam String check, Model model){
-        log.debug("log in recipe page");
+        log.debug("log in recipe page " +check);
         Recipe recipe= recipeRepositories.findByUrl(check);
         model.addAttribute("recipe", recipe);
         try{
@@ -28,7 +28,6 @@ public class RecipeController {
         }catch (NullPointerException e){
             model.addAttribute("total", "");
         }
-
         return "recipe/recipe";
     }
 }
