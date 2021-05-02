@@ -11,7 +11,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 
-import static org.mockito.ArgumentMatchers.any;
+import java.util.Optional;
+
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -34,17 +35,21 @@ class RecipeControllerTest {
 
     Recipe recipe;
 
+    Optional<Recipe> optional;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         recipe = new Recipe();
+        optional  = Optional.of(recipe);
 //        recipe.setCookTime(20);
 //        recipe.setPrepTime(10);
     }
     @Test
     void testMockMvc() throws Exception {
         mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
-        when(repositories.findByUrl("result").get()).thenReturn(recipe);
+
+        when(repositories.findByUrl("result")).thenReturn(optional);
 
         mockMvc.perform(get("/recipe?check=result"))
                 .andExpect(status().isOk())
@@ -55,7 +60,7 @@ class RecipeControllerTest {
     }
     @Test
     void recipe() {
-        when(repositories.findByUrl("result").get()).thenReturn(recipe);
+        when(repositories.findByUrl("result")).thenReturn(optional);
         String result = recipeController.recipe("result",model);
         assertEquals("recipe/recipe",result);
         verify(model).addAttribute("recipe",recipe);

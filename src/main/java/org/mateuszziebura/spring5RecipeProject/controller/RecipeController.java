@@ -21,7 +21,7 @@ public class RecipeController {
     @RequestMapping("recipe")
     public String recipe(@RequestParam String check, Model model){
         log.debug("log in recipe page " +check);
-        Recipe recipe= recipeRepositories.findByUrl(check).get();
+        Recipe recipe= recipeRepositories.findByUrl(check).orElse(null);
         model.addAttribute("recipe", recipe);
         try{
             model.addAttribute("total", recipe.getPrepTime()+recipe.getCookTime());
