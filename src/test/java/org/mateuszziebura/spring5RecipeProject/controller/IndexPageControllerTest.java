@@ -3,7 +3,7 @@ package org.mateuszziebura.spring5RecipeProject.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
-import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepositories;
+import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepository;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -32,7 +32,7 @@ class IndexPageControllerTest {
     Model model;
 
     @Mock
-    RecipeRepositories repositories;
+    RecipeRepository repositories;
 
     @BeforeEach
     void setUp() {

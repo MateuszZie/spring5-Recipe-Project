@@ -2,24 +2,14 @@ package org.mateuszziebura.spring5RecipeProject.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mateuszziebura.spring5RecipeProject.domain.Difficulty;
-import org.mateuszziebura.spring5RecipeProject.domain.Ingredient;
-import org.mateuszziebura.spring5RecipeProject.domain.Notes;
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
-import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepositories;
+import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepository;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
-
-import java.math.BigDecimal;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -32,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class RecipeControllerTest {
 
     @Mock
-    RecipeRepositories repositories;
+    RecipeRepository repositories;
 
     @InjectMocks
     RecipeController recipeController;
@@ -54,7 +44,7 @@ class RecipeControllerTest {
     @Test
     void testMockMvc() throws Exception {
         mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
-        when(repositories.findByUrl("result")).thenReturn(recipe);
+        when(repositories.findByUrl("result").get()).thenReturn(recipe);
 
         mockMvc.perform(get("/recipe?check=result"))
                 .andExpect(status().isOk())
@@ -65,7 +55,7 @@ class RecipeControllerTest {
     }
     @Test
     void recipe() {
-        when(repositories.findByUrl("result")).thenReturn(recipe);
+        when(repositories.findByUrl("result").get()).thenReturn(recipe);
         String result = recipeController.recipe("result",model);
         assertEquals("recipe/recipe",result);
         verify(model).addAttribute("recipe",recipe);

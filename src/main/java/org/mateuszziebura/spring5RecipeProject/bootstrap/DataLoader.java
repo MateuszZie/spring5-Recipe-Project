@@ -3,7 +3,7 @@ package org.mateuszziebura.spring5RecipeProject.bootstrap;
 import lombok.extern.slf4j.Slf4j;
 import org.mateuszziebura.spring5RecipeProject.domain.*;
 import org.mateuszziebura.spring5RecipeProject.repositories.CategoryRepositories;
-import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepositories;
+import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepository;
 import org.mateuszziebura.spring5RecipeProject.repositories.UnitOfMeasureRepositories;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -19,10 +19,10 @@ import java.util.Set;
 public class DataLoader implements CommandLineRunner {
 
     private final UnitOfMeasureRepositories unitOfMeasureRepositories;
-    private final RecipeRepositories recipeRepositories;
+    private final RecipeRepository recipeRepositories;
     private final CategoryRepositories categoryRepositories;
 
-    public DataLoader(UnitOfMeasureRepositories unitOfMeasureRepositories, RecipeRepositories recipeRepositories, CategoryRepositories categoryRepositories) {
+    public DataLoader(UnitOfMeasureRepositories unitOfMeasureRepositories, RecipeRepository recipeRepositories, CategoryRepositories categoryRepositories) {
         this.unitOfMeasureRepositories = unitOfMeasureRepositories;
         this.recipeRepositories = recipeRepositories;
         this.categoryRepositories = categoryRepositories;
@@ -100,7 +100,7 @@ public class DataLoader implements CommandLineRunner {
         ingredient.setDescription(description);
         if(name!=null){
             Optional<UnitOfMeasure> unitOfMeasure = unitOfMeasureRepositories.findByDescription(name);
-            ingredient.setUnitOfMeasure(unitOfMeasure.get());
+            ingredient.setUom(unitOfMeasure.get());
         }
             ingredient.setAmount(BigDecimal.valueOf(amount));
         ingredient.setRecipe(recipe);
@@ -110,7 +110,7 @@ public class DataLoader implements CommandLineRunner {
         Ingredient ingredient = new Ingredient();
         ingredient.setDescription(description);
         if(name!=null){
-            ingredient.setUnitOfMeasure(unitOfMeasureRepositories.findByDescription(name).get());
+            ingredient.setUom(unitOfMeasureRepositories.findByDescription(name).get());
         }
         ingredient.setRecipe(recipe);
         return ingredient;
