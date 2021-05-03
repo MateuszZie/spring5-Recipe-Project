@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
 class RecipeServiceImplTest {
 
     RecipeServiceImpl recipeService;
@@ -66,6 +65,20 @@ class RecipeServiceImplTest {
 
         assertNotNull(recipeReturned);
         verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, never()).findAll();
+    }
+    @Test
+    void findByURL() {
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+        Optional<Recipe> recipeOptional = Optional.of(recipe);
+
+        when(recipeRepository.findByUrl(anyString())).thenReturn(recipeOptional);
+
+        Recipe recipeReturned = recipeService.findByUrl("test");
+
+        assertNotNull(recipeReturned);
+        verify(recipeRepository, times(1)).findByUrl(anyString());
         verify(recipeRepository, never()).findAll();
     }
     }

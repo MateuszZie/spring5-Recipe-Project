@@ -49,6 +49,17 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public Recipe findByUrl(String url) {
+        Optional<Recipe> recipeOptional = recipeRepository.findByUrl(url);
+
+        if (!recipeOptional.isPresent()) {
+            throw new RuntimeException("Recipe Not Found!");
+        }
+
+        return recipeOptional.get();
+    }
+
+    @Override
     @Transactional
     public RecipeCommand saveRecipeCommand(RecipeCommand command) {
         Recipe detachedRecipe = recipeCommandToRecipe.convert(command);

@@ -1,10 +1,14 @@
 package org.mateuszziebura.spring5RecipeProject.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.mateuszziebura.spring5RecipeProject.commands.RecipeCommand;
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
 import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepository;
+import org.mateuszziebura.spring5RecipeProject.services.RecipeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -12,16 +16,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Slf4j
 public class RecipeController {
 
-    private final RecipeRepository recipeRepositories;
+    private final RecipeService recipeService;
 
-    public RecipeController(RecipeRepository recipeRepositories) {
-        this.recipeRepositories = recipeRepositories;
+
+    public RecipeController(RecipeService recipeService) {
+        this.recipeService = recipeService;
+
     }
 
     @RequestMapping("recipe")
     public String recipe(@RequestParam String check, Model model){
         log.debug("log in recipe page " +check);
-        Recipe recipe= recipeRepositories.findByUrl(check).orElse(null);
+        Recipe recipe= recipeService.findByUrl(check);
         model.addAttribute("recipe", recipe);
         try{
             model.addAttribute("total", recipe.getPrepTime()+recipe.getCookTime());
@@ -29,5 +35,18 @@ public class RecipeController {
             model.addAttribute("total", "");
         }
         return "recipe/recipe";
+    }
+
+    @RequestMapping("recipe/new")
+    public String newRecipe(Model model){
+        model.addAttribute("recipe", new RecipeCommand());
+
+        return "recipe/recipeform";
+    }
+
+    @PostMapping("recipe")
+    public String saveOrUpdate(@ModelAttribute RecipeCommand command){
+        RecipeCommand saveRecipe = recipeService.saveRecipeCommand(command);
+        return "redirect:/recipe?check=" + saveRecipe.getUrl();
     }
 }

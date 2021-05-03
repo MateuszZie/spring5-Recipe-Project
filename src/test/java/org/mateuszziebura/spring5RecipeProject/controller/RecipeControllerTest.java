@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
 import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepository;
+import org.mateuszziebura.spring5RecipeProject.services.RecipeService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class RecipeControllerTest {
 
     @Mock
-    RecipeRepository repositories;
+    RecipeService repositories;
 
     @InjectMocks
     RecipeController recipeController;
@@ -35,13 +36,11 @@ class RecipeControllerTest {
 
     Recipe recipe;
 
-    Optional<Recipe> optional;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         recipe = new Recipe();
-        optional  = Optional.of(recipe);
 //        recipe.setCookTime(20);
 //        recipe.setPrepTime(10);
     }
@@ -49,7 +48,7 @@ class RecipeControllerTest {
     void testMockMvc() throws Exception {
         mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
 
-        when(repositories.findByUrl("result")).thenReturn(optional);
+        when(repositories.findByUrl("result")).thenReturn(recipe);
 
         mockMvc.perform(get("/recipe?check=result"))
                 .andExpect(status().isOk())
@@ -60,7 +59,7 @@ class RecipeControllerTest {
     }
     @Test
     void recipe() {
-        when(repositories.findByUrl("result")).thenReturn(optional);
+        when(repositories.findByUrl("result")).thenReturn(recipe);
         String result = recipeController.recipe("result",model);
         assertEquals("recipe/recipe",result);
         verify(model).addAttribute("recipe",recipe);
