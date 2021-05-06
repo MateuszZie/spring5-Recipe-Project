@@ -16,4 +16,6 @@ public interface RecipeService {
     RecipeCommand findCommandByUrl(String url);
 
     RecipeCommand saveRecipeCommand(RecipeCommand command);
+
+    void deleteById(Long id);
 }

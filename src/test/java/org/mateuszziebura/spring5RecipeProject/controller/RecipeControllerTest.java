@@ -45,6 +45,7 @@ class RecipeControllerTest {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
         recipe = new Recipe();
+        recipe.setId(2L);
 //        recipe.setCookTime(20);
 //        recipe.setPrepTime(10);
     }
@@ -104,5 +105,14 @@ class RecipeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/recipeform"))
                 .andExpect(model().attributeExists("recipe"));
+    }
+    @Test
+    public void testDeleteAction() throws Exception {
+        when(repositories.findByUrl(anyString())).thenReturn(recipe);
+        mockMvc.perform(get("/recipe/delete?check=test"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/"));
+
+        verify(repositories, times(1)).deleteById(anyLong());
     }
 }

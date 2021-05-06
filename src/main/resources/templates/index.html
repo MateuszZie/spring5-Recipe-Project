@@ -30,13 +30,14 @@
 <table class="table table-hover ">
     <thead>
     <tr>
-        <th>Name</th><th>Update</th>
+        <th>Name</th><th>Update</th><th>Delete</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="recipe: ${recipes}">
         <td><a id="lol" th:text="${recipe.url}" th:href="|recipe?check=${recipe.url}|" type="text" name="check">recipe</a></td>
         <td><a href="#" th:href="@{'/recipe/update?check=' +${recipe.url}}">Update</a></td>
+        <td><a href="#" th:href="@{'/recipe/delete?check=' +${recipe.url}}">Delete</a></td>
     </tr>
     </tbody>
 </table>

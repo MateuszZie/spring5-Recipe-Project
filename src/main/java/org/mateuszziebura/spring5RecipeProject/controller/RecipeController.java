@@ -54,4 +54,11 @@ public class RecipeController {
         RecipeCommand saveRecipe = recipeService.saveRecipeCommand(command);
         return "redirect:/recipe?check=" + saveRecipe.getUrl();
     }
+
+    @RequestMapping("recipe/delete")
+    public String deleteRecipe(@RequestParam String check){
+        Recipe recipe = recipeService.findByUrl(check);
+        recipeService.deleteById(recipe.getId());
+        return "redirect:/";
+    }
 }
