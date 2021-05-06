@@ -13,5 +13,7 @@ public interface RecipeService {
 
     Recipe findByUrl(String url);
 
+    RecipeCommand findCommandByUrl(String url);
+
     RecipeCommand saveRecipeCommand(RecipeCommand command);
 }

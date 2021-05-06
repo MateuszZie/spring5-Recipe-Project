@@ -28,6 +28,17 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public RecipeCommand findCommandByUrl(String url) {
+        Optional<Recipe> recipeOptional = recipeRepository.findByUrl(url);
+
+        if (!recipeOptional.isPresent()) {
+            throw new RuntimeException("Recipe Not Found!");
+        }
+
+        return recipeToRecipeCommand.convert(recipeOptional.get());
+    }
+
+    @Override
     public Set<Recipe> getRecipes() {
         log.debug("I'm in the service");
 

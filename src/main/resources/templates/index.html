@@ -24,9 +24,21 @@
 <h1 class="panel-title" th:text="'Recipes List'">Recipe</h1>
                 </div>
                 <div class="panel-body">
+                    <a href="#" th:href="@{'/recipe/new'}">New Recipe</a>
                     <div class="table-responsive" th:if="${not #lists.isEmpty(recipes)}">
-<table class="table table-hover " th:each="recipe: ${recipes}" >
-    <a id="lol" th:text="${recipe.url}" th:href="|recipe?check=${recipe.url}|" type="text" name="check">recipe</a>
+                        <p></p>
+<table class="table table-hover ">
+    <thead>
+    <tr>
+        <th>Name</th><th>Update</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="recipe: ${recipes}">
+        <td><a id="lol" th:text="${recipe.url}" th:href="|recipe?check=${recipe.url}|" type="text" name="check">recipe</a></td>
+        <td><a href="#" th:href="@{'/recipe/update?check=' +${recipe.url}}">Update</a></td>
+    </tr>
+    </tbody>
 </table>
                     </div>
                 </div>

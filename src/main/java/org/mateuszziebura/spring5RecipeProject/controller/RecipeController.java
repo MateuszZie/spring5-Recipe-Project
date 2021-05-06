@@ -2,8 +2,8 @@ package org.mateuszziebura.spring5RecipeProject.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.mateuszziebura.spring5RecipeProject.commands.RecipeCommand;
+import org.mateuszziebura.spring5RecipeProject.converters.RecipeToRecipeCommand;
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
-import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepository;
 import org.mateuszziebura.spring5RecipeProject.services.RecipeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +18,8 @@ public class RecipeController {
 
     private final RecipeService recipeService;
 
-
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
-
     }
 
     @RequestMapping("recipe")
@@ -40,6 +38,13 @@ public class RecipeController {
     @RequestMapping("recipe/new")
     public String newRecipe(Model model){
         model.addAttribute("recipe", new RecipeCommand());
+
+        return "recipe/recipeform";
+    }
+
+    @RequestMapping("recipe/update")
+    public String update(@RequestParam String check, Model model){
+        model.addAttribute("recipe", recipeService.findCommandByUrl(check));
 
         return "recipe/recipeform";
     }

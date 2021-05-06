@@ -2,6 +2,7 @@ package org.mateuszziebura.spring5RecipeProject.services;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mateuszziebura.spring5RecipeProject.commands.RecipeCommand;
 import org.mateuszziebura.spring5RecipeProject.converters.RecipeCommandToRecipe;
 import org.mateuszziebura.spring5RecipeProject.converters.RecipeToRecipeCommand;
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
@@ -78,6 +79,25 @@ class RecipeServiceImplTest {
         Recipe recipeReturned = recipeService.findByUrl("test");
 
         assertNotNull(recipeReturned);
+        verify(recipeRepository, times(1)).findByUrl(anyString());
+        verify(recipeRepository, never()).findAll();
+    }
+    @Test
+    public void getRecipeCommandByUrlTest(){
+        Recipe recipe = new Recipe();
+        recipe.setUrl("test");
+        Optional<Recipe> recipeOptional = Optional.of(recipe);
+
+        when(recipeRepository.findByUrl(anyString())).thenReturn(recipeOptional);
+
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setUrl("test");
+
+        when(recipeToRecipeCommand.convert(any())).thenReturn(recipeCommand);
+
+        RecipeCommand commandByUrl = recipeService.findCommandByUrl("test");
+
+        assertNotNull(commandByUrl);
         verify(recipeRepository, times(1)).findByUrl(anyString());
         verify(recipeRepository, never()).findAll();
     }
