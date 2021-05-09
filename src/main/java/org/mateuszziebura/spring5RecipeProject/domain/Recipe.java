@@ -48,4 +48,8 @@ public class Recipe {
         notes.setRecipe(this);
         this.notes = notes;
     }
+
+    public void addIngredient(Ingredient ingredient) {
+        ingredients.add(ingredient);
+    }
 }
