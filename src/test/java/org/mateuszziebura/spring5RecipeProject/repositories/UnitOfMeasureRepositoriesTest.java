@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UnitOfMeasureRepositoriesTest {
 
     @Autowired
-    UnitOfMeasureRepositories unitOfMeasureRepositories;
+    UnitOfMeasureRepository unitOfMeasureRepositories;
 
     @BeforeEach
     void setUp() {

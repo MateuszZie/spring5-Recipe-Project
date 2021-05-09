@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.mateuszziebura.spring5RecipeProject.domain.*;
 import org.mateuszziebura.spring5RecipeProject.repositories.CategoryRepositories;
 import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepository;
-import org.mateuszziebura.spring5RecipeProject.repositories.UnitOfMeasureRepositories;
+import org.mateuszziebura.spring5RecipeProject.repositories.UnitOfMeasureRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,11 +18,11 @@ import java.util.Set;
 @Slf4j
 public class DataLoader implements CommandLineRunner {
 
-    private final UnitOfMeasureRepositories unitOfMeasureRepositories;
+    private final UnitOfMeasureRepository unitOfMeasureRepositories;
     private final RecipeRepository recipeRepositories;
     private final CategoryRepositories categoryRepositories;
 
-    public DataLoader(UnitOfMeasureRepositories unitOfMeasureRepositories, RecipeRepository recipeRepositories, CategoryRepositories categoryRepositories) {
+    public DataLoader(UnitOfMeasureRepository unitOfMeasureRepositories, RecipeRepository recipeRepositories, CategoryRepositories categoryRepositories) {
         this.unitOfMeasureRepositories = unitOfMeasureRepositories;
         this.recipeRepositories = recipeRepositories;
         this.categoryRepositories = categoryRepositories;
