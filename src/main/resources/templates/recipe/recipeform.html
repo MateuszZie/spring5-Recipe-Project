@@ -17,7 +17,7 @@
           crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 </head>
 <body>
-<!--/*@thymesVar id="recipe" type="guru.springframework.domain.Recipe"*/-->
+<!--/*@thymesVar id="recipe" type="org.mateuszziebura.spring5RecipeProject.domain.Recipe"*/-->
 <div class="container-fluid" style="margin-top: 20px">
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
@@ -95,7 +95,7 @@
                   <h1 class="panel-title">Ingredients</h1>
                 </div>
                 <div class="col-md-1">
-                  <a class="btn btn-default" href="#" role="button">Edit</a>
+                  <a class="btn btn-default" href="#" th:href="@{'/recipe/ingredients/show?check=' +${recipe.url}}" role="button">View</a>
                 </div>
               </div>
             </div>
