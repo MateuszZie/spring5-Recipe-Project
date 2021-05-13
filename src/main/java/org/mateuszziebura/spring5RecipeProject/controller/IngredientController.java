@@ -2,6 +2,8 @@ package org.mateuszziebura.spring5RecipeProject.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.mateuszziebura.spring5RecipeProject.commands.IngredientCommand;
+import org.mateuszziebura.spring5RecipeProject.commands.RecipeCommand;
+import org.mateuszziebura.spring5RecipeProject.commands.UnitOfMeasureCommand;
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
 import org.mateuszziebura.spring5RecipeProject.services.IngredientService;
 import org.mateuszziebura.spring5RecipeProject.services.RecipeService;
@@ -41,6 +43,26 @@ public class IngredientController {
                                        @RequestParam String check, Model model){
         model.addAttribute("ingredient", ingredientService.findByRecipeUrlAndIngredientId(check, Long.valueOf(recipeId)));
         return "recipe/ingredient/show";
+    }
+
+    @RequestMapping("recipe/ingredient/{recipeId}/new")
+    public String newIngredient(@PathVariable String recipeId, Model model){
+
+        //make sure we have a good id value
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));
+        //todo raise exception if null
+
+        //need to return back parent id for hidden form property
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(Long.valueOf(recipeId));
+        model.addAttribute("ingredient", ingredientCommand);
+
+        //init uom
+        ingredientCommand.setUom(new UnitOfMeasureCommand());
+
+        model.addAttribute("uomList",  unitOfMeasureService.listAllUoms());
+
+        return "recipe/ingredient/ingredientform";
     }
 
     @RequestMapping("recipe/ingredient/{id}/update")

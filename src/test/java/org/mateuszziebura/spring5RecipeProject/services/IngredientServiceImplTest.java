@@ -95,8 +95,9 @@ class IngredientServiceImplTest {
 
         when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
         when(recipeRepository.save(any())).thenReturn(savedRecipe);
-
+        when(ingredientCommandToIngredient.convert(command)).thenReturn(new Ingredient());
         //when
+
         IngredientCommand savedCommand = ingredientService.saveIngredientCommand(command);
 
         //then

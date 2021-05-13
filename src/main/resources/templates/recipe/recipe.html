@@ -49,8 +49,8 @@
                     <ul>
                         <li th:remove="all">ing1</li>
                         <li th:remove="all">ing2</li>
-                        <li th:each="ingredient: ${recipe.ingredients}" th:text="${ingredient?.amount} ? ${ingredient.amount} + ' ' + ${ingredient.description}
-                            : ${ingredient.description}">ing3</li>
+                        <li th:each="ingredient: ${recipe.ingredients}" th:text="${ingredient?.amount} ? ${ingredient.amount} + ' ' +${ingredient?.uom?.description} +' '
+                        + ${ingredient.description}: ${ingredient?.uom?.description} +' '+${ingredient.description}">ing3</li>
                     </ul>
 
 <!--        <h4 th:each="ingredient: ${recipe.ingredients}" th:text="|${ingredient.amount} ${ingredient.description}|">ingredient</h4>-->
