@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.mateuszziebura.spring5RecipeProject.commands.RecipeCommand;
 import org.mateuszziebura.spring5RecipeProject.converters.RecipeCommandToRecipe;
 import org.mateuszziebura.spring5RecipeProject.converters.RecipeToRecipeCommand;
+import org.mateuszziebura.spring5RecipeProject.domain.Ingredient;
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
 import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepository;
 import org.springframework.stereotype.Service;
@@ -93,5 +94,11 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public void deleteById(Long id) {
         recipeRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public Recipe saveRecipe(Recipe recipe) {
+        return recipeRepository.save(recipe);
     }
 }

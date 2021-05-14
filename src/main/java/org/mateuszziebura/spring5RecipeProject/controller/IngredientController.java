@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.mateuszziebura.spring5RecipeProject.commands.IngredientCommand;
 import org.mateuszziebura.spring5RecipeProject.commands.RecipeCommand;
 import org.mateuszziebura.spring5RecipeProject.commands.UnitOfMeasureCommand;
+import org.mateuszziebura.spring5RecipeProject.domain.Ingredient;
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
 import org.mateuszziebura.spring5RecipeProject.services.IngredientService;
 import org.mateuszziebura.spring5RecipeProject.services.RecipeService;
@@ -11,6 +12,8 @@ import org.mateuszziebura.spring5RecipeProject.services.UnitOfMeasureService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @Slf4j
 @Controller
@@ -84,5 +87,19 @@ public class IngredientController {
         log.debug("saved ingredient id:" + savedCommand.getId());
 
         return "redirect:/recipe/ingredient/" + savedCommand.getId() + "/show?check=" +recipe.getUrl();
+    }
+    @RequestMapping("ingredient/{id}/delete")
+    public String deleteIngredient(@PathVariable String id, @RequestParam String check){
+
+        Recipe recipe = recipeService.findByUrl(check);
+        Ingredient ingredientToDelete = new Ingredient();
+        for (Ingredient ingredient: recipe.getIngredients()){
+            if(ingredient.getId().equals(Long.valueOf(id))){
+                ingredientToDelete = ingredient;
+                break;
+            }
+        }
+        ingredientService.deleteIngredient(ingredientToDelete, recipe);
+        return "redirect:/recipe/ingredients/show?check="+recipe.getUrl();
     }
 }

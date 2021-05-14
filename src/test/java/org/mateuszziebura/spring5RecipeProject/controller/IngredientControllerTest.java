@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mateuszziebura.spring5RecipeProject.commands.IngredientCommand;
 import org.mateuszziebura.spring5RecipeProject.commands.RecipeCommand;
+import org.mateuszziebura.spring5RecipeProject.domain.Ingredient;
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
 import org.mateuszziebura.spring5RecipeProject.services.IngredientService;
 import org.mateuszziebura.spring5RecipeProject.services.RecipeService;
@@ -13,6 +14,10 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.HashSet;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashSet;
 
@@ -132,5 +137,24 @@ class IngredientControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/ingredient/3/show?check=test"));
 
+    }
+
+    @Test
+    void deleteIngredient() throws Exception{
+        Ingredient ingredient = new Ingredient();
+        ingredient.setId(1L);
+        Recipe recipe = new Recipe();
+        recipe.getIngredients().add(ingredient);
+        recipe.setUrl("test");
+        when(recipeService.findByUrl(anyString())).thenReturn(recipe);
+        mockMvc.perform(get("/ingredient/1/delete?check=test")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", "")
+                .param("description", "some string")
+        )
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/recipe/ingredients/show?check=test"));
+
+        verify(ingredientService).deleteIngredient(ingredient,recipe);
     }
 }

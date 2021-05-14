@@ -8,6 +8,7 @@ import org.mateuszziebura.spring5RecipeProject.converters.IngredientToIngredient
 import org.mateuszziebura.spring5RecipeProject.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import org.mateuszziebura.spring5RecipeProject.domain.Ingredient;
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
+import org.mateuszziebura.spring5RecipeProject.repositories.IngredientRepository;
 import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepository;
 import org.mateuszziebura.spring5RecipeProject.repositories.UnitOfMeasureRepository;
 import org.mockito.Mock;
@@ -22,6 +23,9 @@ import static org.mockito.Mockito.*;
 class IngredientServiceImplTest {
 
     private final IngredientToIngredientCommand ingredientToIngredientCommand;
+
+    @Mock
+    IngredientRepository ingredientRepository;
 
     @Mock
     IngredientCommandToIngredient ingredientCommandToIngredient;
@@ -43,7 +47,7 @@ class IngredientServiceImplTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        ingredientService = new IngredientServiceImpl(ingredientCommandToIngredient, ingredientToIngredientCommand, recipeRepository, unitOfMeasureRepository);
+        ingredientService = new IngredientServiceImpl(ingredientCommandToIngredient, ingredientToIngredientCommand, recipeRepository, unitOfMeasureRepository, ingredientRepository);
     }
 
     @Test
@@ -104,6 +108,20 @@ class IngredientServiceImplTest {
         assertEquals(Long.valueOf(3L), savedCommand.getId());
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, times(1)).save(any(Recipe.class));
+
+    }
+
+    @Test
+    void deleteIngredient() {
+        Recipe recipe = new Recipe();
+        Ingredient ingredient = new Ingredient();
+        recipe.getIngredients().add(ingredient);
+
+        ingredientService.deleteIngredient(ingredient,recipe);
+
+        verify(ingredientRepository).delete(any());
+        assertEquals(0,recipe.getIngredients().size());
+
 
     }
 }

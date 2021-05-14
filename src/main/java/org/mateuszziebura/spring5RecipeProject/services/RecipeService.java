@@ -1,6 +1,7 @@
 package org.mateuszziebura.spring5RecipeProject.services;
 
 import org.mateuszziebura.spring5RecipeProject.commands.RecipeCommand;
+import org.mateuszziebura.spring5RecipeProject.domain.Ingredient;
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
 
 import java.util.Set;
@@ -19,5 +20,8 @@ public interface RecipeService {
 
     RecipeCommand saveRecipeCommand(RecipeCommand command);
 
+    Recipe saveRecipe(Recipe recipe);
+
     void deleteById(Long id);
+
 }

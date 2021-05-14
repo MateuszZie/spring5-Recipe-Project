@@ -1,7 +1,6 @@
 package org.mateuszziebura.spring5RecipeProject.repositories;
 
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

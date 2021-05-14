@@ -6,6 +6,7 @@ import org.mateuszziebura.spring5RecipeProject.converters.IngredientCommandToIng
 import org.mateuszziebura.spring5RecipeProject.converters.IngredientToIngredientCommand;
 import org.mateuszziebura.spring5RecipeProject.domain.Ingredient;
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
+import org.mateuszziebura.spring5RecipeProject.repositories.IngredientRepository;
 import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepository;
 import org.mateuszziebura.spring5RecipeProject.repositories.UnitOfMeasureRepository;
 import org.springframework.stereotype.Service;
@@ -21,12 +22,14 @@ public class IngredientServiceImpl implements IngredientService {
     private final IngredientToIngredientCommand ingredientToIngredientCommand;
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
+    private final IngredientRepository ingredientRepository;
 
-    public IngredientServiceImpl(IngredientCommandToIngredient ingredientCommandToIngredient, IngredientToIngredientCommand ingredientToIngredientCommand, RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
+    public IngredientServiceImpl(IngredientCommandToIngredient ingredientCommandToIngredient, IngredientToIngredientCommand ingredientToIngredientCommand, RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository, IngredientRepository ingredientRepository) {
         this.ingredientCommandToIngredient = ingredientCommandToIngredient;
         this.ingredientToIngredientCommand = ingredientToIngredientCommand;
         this.recipeRepository = recipeRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
     @Override
@@ -103,5 +106,10 @@ public class IngredientServiceImpl implements IngredientService {
             //to do check for fail
             return ingredientToIngredientCommand.convert(savedIngredientOptional.get());
         }
+    }
+    @Override
+    public void deleteIngredient(Ingredient ingredient, Recipe recipe) {
+                recipe.getIngredients().remove(ingredient);
+                ingredientRepository.delete(ingredient);
     }
 }
