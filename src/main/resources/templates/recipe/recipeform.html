@@ -26,7 +26,15 @@
         <div class="pannel-group">
           <div class="panel panel-primary">
             <div class="panel-heading">
+              <div class="row">
+              <div class="col-md-3">
               <h1 class="panel-title">Edit Recipe Information</h1>
+              </div>
+              <div class="col-md-1">
+                <a class="btn btn-default" href="#"
+                   th:href="@{'/recipe/image?check=' + ${recipe.url}}" role="button">Change Image</a>
+              </div>
+            </div>
             </div>
             <div class="panel-body">
               <div class="row">
@@ -36,22 +44,22 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-3 form-group">
-                  <label>Categories:</label>
+                <div class="col-md-3">
+                  <h5>Categories:</h5>
                 </div>
-                <div class="col-md-9 form-group">
-                  <div class="radio">
-                    <label>
-                      <input type="checkbox" value=""/>
-                      Cat 1
-                    </label>
-                  </div>
-                  <div class="radio" th:remove="all">
-                    <label>
-                      <input type="checkbox" value=""/>
-                      Cat 2
-                    </label>
-                  </div>
+                <div class="col-md-3">
+                  <ul>
+                    <li th:remove="all">cat one</li>
+                    <li th:remove="all">cat two</li>
+                    <li th:each="category : ${recipe.categories}"
+                        th:text="${category.getDescription()}">cat three
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <img src="../../static/images/guacamole400x400WithX.jpg"
+                       th:src="@{/images/guacamole400x400WithX.jpg}"
+                       width="200" height="200">
                 </div>
               </div>
               <div class="row">
