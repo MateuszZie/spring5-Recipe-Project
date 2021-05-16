@@ -22,7 +22,7 @@
                 <div class="panel-heading">
    <h1 th:text="${recipe.source}">Recipe</h1>
                     <img src="../../static/images/guacamole400x400WithX.jpg"
-                         th:src="@{/images/guacamole400x400WithX.jpg}"
+                         th:src="@{'/recipe/recipeimage?check='+${recipe.url}}"
                          width="200" height="200">
 <h2 th:text="${recipe.description}">Description</h2>
    <h3 th:text="${recipe.source}">Recipe</h3>
