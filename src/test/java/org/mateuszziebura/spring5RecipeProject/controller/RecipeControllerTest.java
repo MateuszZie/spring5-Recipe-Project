@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mateuszziebura.spring5RecipeProject.commands.RecipeCommand;
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
-import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepository;
+import org.mateuszziebura.spring5RecipeProject.exceptions.NotFoundException;
 import org.mateuszziebura.spring5RecipeProject.services.RecipeService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -13,8 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
-
-import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -27,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class RecipeControllerTest {
 
     @Mock
-    RecipeService repositories;
+    RecipeService recipeService;
 
     @InjectMocks
     RecipeController recipeController;
@@ -51,7 +49,7 @@ class RecipeControllerTest {
     }
     @Test
     void testMockMvc() throws Exception {
-        when(repositories.findByUrl("result")).thenReturn(recipe);
+        when(recipeService.findByUrl("result")).thenReturn(recipe);
 
         mockMvc.perform(get("/recipe?check=result"))
                 .andExpect(status().isOk())
@@ -62,11 +60,11 @@ class RecipeControllerTest {
     }
     @Test
     void recipe() {
-        when(repositories.findByUrl("result")).thenReturn(recipe);
+        when(recipeService.findByUrl("result")).thenReturn(recipe);
         String result = recipeController.recipe("result",model);
         assertEquals("recipe/recipe",result);
         verify(model).addAttribute("recipe",recipe);
-        verify(repositories).findByUrl("result");
+        verify(recipeService).findByUrl("result");
 //        verify(model).addAttribute("total",recipe.getPrepTime()+recipe.getCookTime());
     }
         @Test
@@ -84,7 +82,7 @@ class RecipeControllerTest {
         RecipeCommand command = new RecipeCommand();
         command.setUrl(test);
 
-        when(repositories.saveRecipeCommand(any())).thenReturn(command);
+        when(recipeService.saveRecipeCommand(any())).thenReturn(command);
 
         mockMvc.perform(post("/recipe")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -99,7 +97,7 @@ class RecipeControllerTest {
         RecipeCommand command = new RecipeCommand();
         command.setUrl("test");
 
-        when(repositories.findCommandByUrl(anyString())).thenReturn(command);
+        when(recipeService.findCommandByUrl(anyString())).thenReturn(command);
 
         mockMvc.perform(get("/recipe/update?check=test"))
                 .andExpect(status().isOk())
@@ -108,11 +106,19 @@ class RecipeControllerTest {
     }
     @Test
     public void testDeleteAction() throws Exception {
-        when(repositories.findByUrl(anyString())).thenReturn(recipe);
+        when(recipeService.findByUrl(anyString())).thenReturn(recipe);
         mockMvc.perform(get("/recipe/delete?check=test"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));
 
-        verify(repositories, times(1)).deleteById(anyLong());
+        verify(recipeService, times(1)).deleteById(anyLong());
+    }
+    @Test
+    public void testGetRecipeNotFound() throws Exception {
+
+        when(recipeService.findByUrl(anyString())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/recipe?check=result"))
+                .andExpect(status().isNotFound());
     }
 }
