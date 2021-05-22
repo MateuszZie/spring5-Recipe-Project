@@ -9,8 +9,11 @@ import org.mateuszziebura.spring5RecipeProject.services.RecipeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 @Controller
 @Slf4j
@@ -50,7 +53,15 @@ public class RecipeController {
     }
 
     @PostMapping("recipe")
-    public String saveOrUpdate(@ModelAttribute RecipeCommand command){
+    public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeCommand command, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
+
+            return "recipe/recipeform";
+        }
         RecipeCommand saveRecipe = recipeService.saveRecipeCommand(command);
         return "redirect:/recipe?check=" + saveRecipe.getUrl();
     }
