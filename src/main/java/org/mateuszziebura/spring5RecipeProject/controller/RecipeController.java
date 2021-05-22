@@ -4,13 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.mateuszziebura.spring5RecipeProject.commands.RecipeCommand;
 import org.mateuszziebura.spring5RecipeProject.converters.RecipeToRecipeCommand;
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
+import org.mateuszziebura.spring5RecipeProject.exceptions.NotFoundException;
 import org.mateuszziebura.spring5RecipeProject.services.RecipeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @Slf4j
@@ -60,5 +60,17 @@ public class RecipeController {
         Recipe recipe = recipeService.findByUrl(check);
         recipeService.deleteById(recipe.getId());
         return "redirect:/";
+    }
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView handleNotFound(){
+
+        log.error("Handling not found exception");
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("404error");
+
+        return modelAndView;
     }
 }
