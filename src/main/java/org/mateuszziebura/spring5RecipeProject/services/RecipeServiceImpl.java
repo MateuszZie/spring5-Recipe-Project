@@ -34,7 +34,7 @@ public class RecipeServiceImpl implements RecipeService {
         Optional<Recipe> recipeOptional = recipeRepository.findByUrl(url);
 
         if (!recipeOptional.isPresent()) {
-            throw new NotFoundException("Recipe Not Found!");
+            throw new NotFoundException("Recipe Not Found!. For Name "+url);
         }
 
         return recipeToRecipeCommand.convert(recipeOptional.get());
@@ -76,7 +76,7 @@ public class RecipeServiceImpl implements RecipeService {
         Optional<Recipe> recipeOptional = recipeRepository.findByUrl(url);
 
         if (!recipeOptional.isPresent()) {
-            throw new NotFoundException("Recipe Not Found!");
+            throw new NotFoundException("Recipe Not Found!. For Name "+url);
         }
 
         return recipeOptional.get();

@@ -126,10 +126,10 @@ class RecipeServiceImplTest {
 
         Optional<Recipe> recipeOptional = Optional.empty();
 
-        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+        when(recipeRepository.findByUrl(anyString())).thenReturn(recipeOptional);
 
         NotFoundException notFoundException = assertThrows(
-                NotFoundException.class, () -> recipeService.findById(1L)
+                NotFoundException.class, () -> recipeService.findByUrl("test")
         );
         assertTrue(notFoundException.getMessage().contains("Recipe Not Found"));
         //should go boom
