@@ -105,18 +105,4 @@ public class IngredientController {
         ingredientService.deleteIngredient(ingredientToDelete, recipe);
         return "redirect:/recipe/ingredients/show?check="+recipe.getUrl();
     }
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NumberFormatException.class)
-    public ModelAndView handleNotFound(Exception exception){
-
-        log.error("Handling not found exception");
-
-        ModelAndView modelAndView = new ModelAndView();
-
-        modelAndView.addObject("exception", exception);
-
-        modelAndView.setViewName("/recipe/ingredient/400error");
-
-        return modelAndView;
-    }
 }
