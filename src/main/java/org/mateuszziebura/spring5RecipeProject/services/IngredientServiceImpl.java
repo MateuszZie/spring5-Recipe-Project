@@ -34,11 +34,12 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public IngredientCommand findByRecipeUrlAndIngredientId(String url, Long ingredientId) {
+
         Optional<Recipe> recipeOptional = recipeRepository.findByUrl(url);
 
         if (!recipeOptional.isPresent()){
             //todo impl error handling
-            log.error("recipe id not found. url: " + url);
+            log.error("recipe url not found. url: " + url);
         }
 
         Recipe recipe = recipeOptional.get();

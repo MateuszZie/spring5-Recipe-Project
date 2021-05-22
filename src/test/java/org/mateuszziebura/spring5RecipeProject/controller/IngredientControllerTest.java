@@ -6,6 +6,7 @@ import org.mateuszziebura.spring5RecipeProject.commands.IngredientCommand;
 import org.mateuszziebura.spring5RecipeProject.commands.RecipeCommand;
 import org.mateuszziebura.spring5RecipeProject.domain.Ingredient;
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
+import org.mateuszziebura.spring5RecipeProject.exceptions.NotFoundException;
 import org.mateuszziebura.spring5RecipeProject.services.IngredientService;
 import org.mateuszziebura.spring5RecipeProject.services.RecipeService;
 import org.mateuszziebura.spring5RecipeProject.services.UnitOfMeasureService;
@@ -156,5 +157,13 @@ class IngredientControllerTest {
                 .andExpect(view().name("redirect:/recipe/ingredients/show?check=test"));
 
         verify(ingredientService).deleteIngredient(ingredient,recipe);
+    }
+    @Test
+    public void testGetIngredientNotFound() throws Exception {
+
+        mockMvc.perform(get("/recipe/ingredient/lol/update?check=test"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("/recipe/ingredient/400error"));
+
     }
 }

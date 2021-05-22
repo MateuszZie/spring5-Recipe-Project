@@ -6,12 +6,15 @@ import org.mateuszziebura.spring5RecipeProject.commands.RecipeCommand;
 import org.mateuszziebura.spring5RecipeProject.commands.UnitOfMeasureCommand;
 import org.mateuszziebura.spring5RecipeProject.domain.Ingredient;
 import org.mateuszziebura.spring5RecipeProject.domain.Recipe;
+import org.mateuszziebura.spring5RecipeProject.exceptions.NotFoundException;
 import org.mateuszziebura.spring5RecipeProject.services.IngredientService;
 import org.mateuszziebura.spring5RecipeProject.services.RecipeService;
 import org.mateuszziebura.spring5RecipeProject.services.UnitOfMeasureService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Set;
 
@@ -101,5 +104,19 @@ public class IngredientController {
         }
         ingredientService.deleteIngredient(ingredientToDelete, recipe);
         return "redirect:/recipe/ingredients/show?check="+recipe.getUrl();
+    }
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NumberFormatException.class)
+    public ModelAndView handleNotFound(Exception exception){
+
+        log.error("Handling not found exception");
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.addObject("exception", exception);
+
+        modelAndView.setViewName("/recipe/ingredient/400error");
+
+        return modelAndView;
     }
 }
