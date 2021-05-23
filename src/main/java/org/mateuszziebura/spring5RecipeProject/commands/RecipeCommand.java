@@ -31,9 +31,9 @@ public class RecipeCommand {
     @Max(100)
     private Integer servings;
     private String source;
-    @URL
+//    @URL
     private String url;
-    @NotBlank
+//    @NotBlank
     private String directions;
     private Set<IngredientCommand> ingredients = new HashSet<>();
     private Byte[] image;
