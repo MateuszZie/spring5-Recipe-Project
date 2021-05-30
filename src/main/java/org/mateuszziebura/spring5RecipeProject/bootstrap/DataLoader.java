@@ -100,7 +100,9 @@ public class DataLoader implements CommandLineRunner {
         ingredient.setDescription(description);
         if(name!=null){
             Optional<UnitOfMeasure> unitOfMeasure = unitOfMeasureRepositories.findByDescription(name);
-            ingredient.setUom(unitOfMeasure.get());
+            if(unitOfMeasure.isPresent()){
+                ingredient.setUom(unitOfMeasure.get());
+            }
         }
             ingredient.setAmount(BigDecimal.valueOf(amount));
         ingredient.setRecipe(recipe);
@@ -109,8 +111,9 @@ public class DataLoader implements CommandLineRunner {
     private Ingredient getIngredient(Recipe recipe,String name, String description){
         Ingredient ingredient = new Ingredient();
         ingredient.setDescription(description);
-        if(name!=null){
-            ingredient.setUom(unitOfMeasureRepositories.findByDescription(name).get());
+        Optional<UnitOfMeasure> unitOfMeasure = unitOfMeasureRepositories.findByDescription(name);
+        if(unitOfMeasure.isPresent()){
+            ingredient.setUom(unitOfMeasure.get());
         }
         ingredient.setRecipe(recipe);
         return ingredient;
