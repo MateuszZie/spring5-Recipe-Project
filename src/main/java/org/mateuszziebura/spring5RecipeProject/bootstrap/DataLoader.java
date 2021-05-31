@@ -6,6 +6,7 @@ import org.mateuszziebura.spring5RecipeProject.repositories.CategoryRepositories
 import org.mateuszziebura.spring5RecipeProject.repositories.RecipeRepository;
 import org.mateuszziebura.spring5RecipeProject.repositories.UnitOfMeasureRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import java.util.Set;
 
 @Component
 @Slf4j
+@Profile("default")
 public class DataLoader implements CommandLineRunner {
 
     private final UnitOfMeasureRepository unitOfMeasureRepositories;
