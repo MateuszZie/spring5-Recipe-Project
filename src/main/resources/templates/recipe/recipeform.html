@@ -33,7 +33,7 @@
               <div class="col-md-3">
               <h1 class="panel-title">Edit Recipe Information</h1>
               </div>
-              <div class="col-md-1">
+              <div class="col-md-1" th:if="${recipe.url != null}">
                 <a class="btn btn-default" href="#"
                    th:href="@{'/recipe/image?check=' + ${recipe.url}}" role="button">Change Image</a>
               </div>
